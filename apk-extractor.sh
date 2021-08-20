@@ -3,6 +3,11 @@ BASE_PATH="`dirname $0`"
 
 echo "Welcome to apk-extractor!"
 echo ""
+echo "Usage:"
+echo ".........................."
+echo "./apk-extractor GOOGLE_PLAY_URL"
+echo ".........................."
+echo ""
 
 apkUrl=$1
 echo "Google Play URL: $apkUrl"
