@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import requests
+import argparse
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 import sys
@@ -38,8 +39,24 @@ def get_download_url(app_id, id_key, data):
     return 'https:{}'.format(result['url'].replace('\\', ''))
 
 def main():
-    play_url = sys.argv[1]
-    app_id = extract_app_id(play_url)
+    # Parse arguments
+    parser = argparse.ArgumentParser(description='A script to get the APK download link from api-apk.evozi.com')
+    parser.add_argument('--mode', choices=['id','url'], help='Is input a Google Play url, or the app id?', default='url')
+    parser.add_argument('query', type=str, help='The URL or ID of the app depending on mode parameter.')
+    args = parser.parse_args()
+
+    # URL or ID?
+    #app_id = args.query
+    if args.mode == 'url':
+        try:
+            app_id = extract_app_id(args.query)
+        except Exception as e:
+            print('Query parameter does not seem to be a proper Google play ID')
+            sys.exit()
+    else:
+        app_id = args.query.strip().replace('"', '')
+
+    # Get URL
     id_key, data = get_evozi_token()
     print(get_download_url(app_id, id_key, data))
 

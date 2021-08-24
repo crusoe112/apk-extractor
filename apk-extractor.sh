@@ -1,38 +1,53 @@
 #!/bin/bash
 BASE_PATH="`dirname $0`"
 
-echo "Welcome to apk-extractor!"
-echo ""
-echo "Usage:"
-echo ".........................."
-echo "./apk-extractor GOOGLE_PLAY_URL"
-echo ".........................."
-echo ""
+print_banner () {
+        echo "Welcome to apk-extractor!"
+        echo ""
+        echo "Usage:"
+        echo ".........................."
+        echo "./apk-extractor GOOGLE_PLAY_URL|APP_ID|APK_FILE"
+        echo ".........................."
+        echo ""
+}
 
+downloadAPK () {
+        wget "$1"
+}
+
+urlToFilename () {
+        downloadLink=$1
+        apkFile="$(echo ${downloadLink##*/})"
+        echo "$apkFile"
+}
+
+getAPKLink () {
+        if [[ $1 == "http"* ]]; then
+                downloadLink="$($BASE_PATH/utilities/get_apk_link.py --mode url \"$1\")"
+                downloadAPK "$downloadLink"
+                echo "$(urlToFilename $downloadLink)"
+        elif [[ $1 == *".apk"* ]]; then
+                echo "$1"
+        else
+                downloadLink="$($BASE_PATH/utilities/get_apk_link.py --mode id \"$1\")"
+                downloadAPK "$downloadLink"
+                echo "$(urlToFilename $downloadLink)"
+        fi
+}
+
+print_banner
 apkUrl=$1
-echo "Google Play URL: $apkUrl"
+apkFile=$(getAPKLink $apkUrl)
 
-# Get the download link from Evozi
-downloadLink="`$BASE_PATH/utilities/get_apk_link.py \"$apkUrl\"`"
-echo "APK Download Link: $downloadLink"
 echo ""
-
-# Download the APK
-echo "Downloading APK..."
-wget "$downloadLink"
-
-# Set the APK Filename
-echo ""
-apkFile="`echo ${downloadLink##*/}`"
-echo "APK downloaded to $apkFile"
-echo ""
+echo "APK File: $apkFile"
 
 # Create a JAR file for dex2jar
 jarFile=$apkFile.jar
 echo "Created JAR File: $jarFile"
 echo ""
 
-# Disassemble with akptook
+# Disassemble with apktool
 echo .........apktool..........
 cd $(dirname $apkFile)
 apktool d -d -f "$apkFile"
