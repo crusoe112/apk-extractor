@@ -8,7 +8,16 @@ chmod +x setup.sh
 ./setup.sh
 ```
 ## Usage
-Execute the tool with the Google play URL of the desired Android app
+Execute the tool with the Google play URL, App ID, or APK file of the desired Android app
+1. URL:
 ```bash
-./apk-extractor "https://play.google.com/store/apps/details?id=<<APP_ID>>&hl=en&gl=US"
+./apk-extractor https://play.google.com/store/apps/details?id=com.example&hl=en&gl=US
+```
+2. APP ID:
+```bash
+./apk-extractor com.example
+```
+3. APK File:
+```bash
+./apk-extractor example.apk
 ```
