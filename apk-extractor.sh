@@ -9,7 +9,7 @@ function usage {
         echo '   -s APK_SOURCE  GOOGLE_PLAY_URL|APP_ID|APK_FILE'
 }
 print_banner () {
-        cat <<- "EOF" 
+        cat <<- "EOF"
             _    ____  _  __   __  ___                  _    
            / \  |  _ \| |/ /   \ \/ / |_ _ __ __ _  ___| |_ 
           / _ \ | |_) | ' /_____\  /| __| '__/ _` |/ __| __|
@@ -30,14 +30,15 @@ urlToFilename () {
 }
 
 getAPKLink () {
-        if [[ $1 == "http"* ]]; then
-                downloadLink="$($BASE_PATH/utilities/get_apk_link.py --mode url \"$1\")"
+        apkSource=$1
+        if [[ $apkSource == "http"* ]]; then
+                downloadLink="$($BASE_PATH/utilities/get_apk_link.py --mode url $apkSource)"
                 downloadAPK "$downloadLink"
                 echo "$(urlToFilename $downloadLink)"
-        elif [[ $1 == *".apk"* ]]; then
-                echo "$1"
+        elif [[ $apkSource == *".apk"* ]]; then
+                echo "$apkSource"
         else
-                downloadLink="$($BASE_PATH/utilities/get_apk_link.py --mode id \"$1\")"
+                downloadLink="$($BASE_PATH/utilities/get_apk_link.py --mode id $apkSource)"
                 downloadAPK "$downloadLink"
                 echo "$(urlToFilename $downloadLink)"
         fi
@@ -69,8 +70,6 @@ jdguiPath () {
         java -jar "$BASE_PATH/utilities/jd-gui-1.6.6.jar" "$jarFile"
         echo ..........................
         echo ""
-
-        echo "Extraction Complete!"
 }
 
 jadxPath () {
@@ -82,8 +81,6 @@ jadxPath () {
         jadx-gui "$full_path"
         echo ........................
         echo ""
-
-        echo "Extraction Complete!"
 }
 
 # Main
@@ -109,15 +106,31 @@ if [ "$analyzer" != "jd-gui" ] && [ "$analyzer" != "jadx" ]; then
 fi
 
 # Extract
-apkFile=$(getAPKLink $apkSource)
-echo "$apkFile"
-
+retrievingBanner="Retrieving APK from source: $apkSource"
+rbLen=${#retrievingBanner}
+printf '%.0s-' $(seq $rbLen); echo ""
+echo "$retrievingBanner"
+printf '%.0s-' $(seq $rbLen); echo ""
 echo ""
-echo "APK File: $apkFile"
+apkFile=$(getAPKLink "$apkSource")
+printf '%.0s-' $(seq $rbLen); echo ""
+echo ""
+extractingBanner="Performing extraction of: $apkFile"
+ebLen=${#extractingBanner}
+printf '%.0s-' $(seq $ebLen); echo ""
+echo "$extractingBanner"
+printf '%.0s-' $(seq $ebLen); echo ""
 
 # Choose analyzer path
 if [ "$analyzer" == "jadx" ]; then
+        echo ""
+        echo "Extracting with: JADX"
         jadxPath "$apkFile"
 elif [ "$analyzer" == "jd-gui" ]; then
+        echo ""
+        echo "Extracting with: JD-GUI"
         jdguiPath "$apkFile"
 fi
+
+printf '%.0s-' $(seq $ebLen); echo ""
+echo "Extraction Complete!"
