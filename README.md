@@ -9,7 +9,7 @@
 ```
 
 ## Summary
-Automates the process of downloading and extracting APK's for analysis of decompiled Android apps
+Automates the process of downloading and extracting APK's for static analysis of decompiled Android apps
 
 ## Installation
 Run the following commands to install (requires sudo privileges):
