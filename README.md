@@ -1,4 +1,12 @@
-# apk-extractor
+```
+    _    ____  _  __   __  ___                  _   
+   / \  |  _ \| |/ /   \ \/ / |_ _ __ __ _  ___| |_ 
+  / _ \ | |_) | ' /_____\  /| __| '__/ _` |/ __| __|
+ / ___ \|  __/| . \_____/  \| |_| | | (_| | (__| |_ 
+/_/   \_\_|   |_|\_\   /_/\_\\__|_|  \__,_|\___|\__|
+```
+
+# Summary
 Automates the process of downloading and extracting APK's for analysis of decompiled Android apps
 
 ## Installation
@@ -8,7 +16,8 @@ chmod +x setup.sh
 ./setup.sh
 ```
 ## Usage
-Execute the tool with the Google play URL of the desired Android app
+Execute the tool with the Google play URL or class of the desired Android app or the apk filename.
 ```bash
-./apk-extractor "https://play.google.com/store/apps/details?id=<<APP_ID>>&hl=en&gl=US"
+./apk-xtract -s "https://play.google.com/store/apps/details?id=<<APP_ID>>&hl=en&gl=US"
 ```
+
