@@ -17,7 +17,7 @@ chmod +x setup.sh
 ./setup.sh
 ```
 ## Usage
-Execute the tool with the Google play URL or class of the desired Android app or the apk filename.
+Execute the tool with the Google play URL or app ID of the desired Android app or the apk filename.
 ```
 ./apk-xtract [-a ANALYZER] -s APK_SOURCE
 -a ANALYZER             jd-gui|jadx
