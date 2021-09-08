@@ -1,3 +1,4 @@
+# APK-Xtract
 ```
     _    ____  _  __   __  ___                  _   
    / \  |  _ \| |/ /   \ \/ / |_ _ __ __ _  ___| |_ 
@@ -7,7 +8,7 @@
                               Created by Marc Bohler
 ```
 
-# Summary
+## Summary
 Automates the process of downloading and extracting APK's for analysis of decompiled Android apps
 
 ## Installation
@@ -17,7 +18,7 @@ chmod +x setup.sh
 ./setup.sh
 ```
 ## Usage
-Execute the tool with the Google play URL or app ID of the desired Android app or the apk filename.
+Execute the tool with the Google play URL or app ID of the desired Android app or the APK filename.
 ```
 ./apk-xtract [-a ANALYZER] -s APK_SOURCE
 -a ANALYZER             jd-gui|jadx
